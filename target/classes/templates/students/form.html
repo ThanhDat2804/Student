@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Form</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+<body class="container py-4">
+<h1 class="mb-4" th:text="${student.Id == null ? 'Add New Student' : 'Edit Student'}">Student Form</h1>
+
+<form th:action="${student.Id == null} ? '/students/add' : '/students/edit/' + ${student.studentNumber}"
+      th:object="${student}"
+      method="post"
+      class="needs-validation"
+      novalidate>
+
+  <!-- Student Number -->
+  <div class="mb-3">
+    <label for="studentNumber" class="form-label">Student Number</label>
+    <input type="text"
+           class="form-control"
+           id="studentNumber"
+           th:field="*{studentNumber}"
+           th:classappend="${#fields.hasErrors('studentNumber')} ? 'is-invalid' : ''">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('studentNumber')}"
+         th:errors="*{studentNumber}">Student number error</div>
+  </div>
+
+  <!-- Full Name -->
+  <div class="mb-3">
+    <label for="fullName" class="form-label">Full Name</label>
+    <input type="text"
+           class="form-control"
+           id="fullName"
+           th:field="*{fullName}"
+           th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''">
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+         th:errors="*{fullName}">Full name error</div>
+  </div>
+
+  <!-- Mark -->
+  <div class="mb-3">
+    <label for="mark" class="form-label">Mark (0-10)</label>
+    <input type="number"
+           class="form-control"
+           id="mark"
+           name="mark"
+           th:field="*{mark}"
+           th:value="${student.mark != null ? student.mark : ''}"
+           th:classappend="${#fields.hasErrors('mark')} ? 'is-invalid' : ''"/>
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('mark')}"
+         th:errors="*{mark}">Mark error</div>
+  </div>
+
+
+  <!-- Buttons -->
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a th:href="@{/students}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
